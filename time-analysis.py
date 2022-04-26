@@ -3,7 +3,7 @@ import csv
 import numpy as np
 import matplotlib.pyplot as plt
 
-def print_plot(x,vec,img_path):
+def print_plot(versions,vec,img_path):
     sifis=[]
     sifis_q=[]
     crap=[]
@@ -31,31 +31,38 @@ def print_plot(x,vec,img_path):
     plt.savefig(img_path)
     plt.cla()
     return
-files = []
-avg= []
-min= []
-max= []
-for file in os.listdir("./TimeAnalysis/rust-analyzer"):
-    if file.endswith(".csv"):
-        files.append(file)
 
-files.sort()
-for file in files:
-    with open("./TimeAnalysis/rust-analyzer/"+file) as data:
-        csvreader = csv.reader(data)
-        header = next(csvreader)
-        for row in csvreader:
-            if row[0] == 'AVG':
-                avg.append([float(row[1]),float(row[2]),float(row[3]),float(row[4])])
-            if row[0] == 'MIN':
-                min.append([float(row[1]),float(row[2]),float(row[3]),float(row[4])])
-            if row[0] == 'MAX':
-                max.append([float(row[1]),float(row[2]),float(row[3]),float(row[4])])
-versions=[]
-for f in files:
-    versions.append("-".join(f.split(".")[0].split("-")[2:]))
+def time_analysis(path_to_csvs, image_name) :
+    files = []
+    avg= []
+    min= []
+    max= []
+    for file in os.listdir(path_to_csvs):
+        if file.endswith(".csv"):
+            files.append(file)
 
-print_plot(versions,avg,'./img/avg.png')
-print_plot(versions,min,'./img/min.png')
-print_plot(versions,max,'./img/max.png')
+    files.sort()
+    for file in files:
+        with open(path_to_csvs+"/"+file) as data:
+            csvreader = csv.reader(data)
+            header = next(csvreader)
+            for row in csvreader:
+                if row[0] == 'AVG':
+                    avg.append([float(row[1]),float(row[2]),float(row[3]),float(row[4])])
+                if row[0] == 'MIN':
+                    min.append([float(row[1]),float(row[2]),float(row[3]),float(row[4])])
+                if row[0] == 'MAX':
+                    max.append([float(row[1]),float(row[2]),float(row[3]),float(row[4])])
+    versions=[]
+    for f in files:
+        no_ext_f = f[:len(f) - 4]
+        versions.append("-".join(no_ext_f.split("-")[1:]))
+
+    print_plot(versions,avg,'./img/'+image_name+'_avg.png')
+    print_plot(versions,min,'./img/'+image_name+'_min.png')
+    print_plot(versions,max,'./img/'+image_name+'_max.png')
+    return
+
+time_analysis("./TimeAnalysis/rust-analyzer","rust-analyzer")
+time_analysis("./TimeAnalysis/seahorse","seahorse")
     
