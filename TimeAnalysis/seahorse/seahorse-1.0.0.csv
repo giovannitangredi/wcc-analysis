@@ -1,0 +1,16 @@
+FILE,SIFIS PLAIN,SIFIS QUANTIZED,CRAP,SKUNK,IGNORED
+app.rs,74.316,0.962,93.092,30.609,false
+color.rs,0.000,0.000,306.000,68.000,false
+command.rs,9.935,0.710,14.016,2.435,false
+context.rs,24.316,0.737,33.468,9.962,false
+error.rs,0.531,0.031,257.941,64.000,false
+flag.rs,34.696,0.738,48.329,15.870,false
+lib.rs,0.083,0.083,1.000,0.040,false
+multiple_app.rs,0.000,0.000,552.000,92.000,false
+single_app.rs,0.000,0.000,20.000,16.000,false
+AVG,15.987,0.362,147.316,33.213,false
+MIN,0.000,0.000,1.000,0.040,false
+MAX,74.316,0.962,552.000,92.000,false
+LIST OF IGNORED FILES,----------,----------,----------,----------,----------
+action.rs,0.000,0.000,0.000,0.000,true
+TOTAL FILES IGNORED,1,,,,
