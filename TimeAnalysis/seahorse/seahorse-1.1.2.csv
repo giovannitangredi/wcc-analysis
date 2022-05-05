@@ -1,17 +1,24 @@
-FILE,SIFIS PLAIN,SIFIS QUANTIZED,CRAP,SKUNK,IGNORED
-app.rs,79.118,0.791,124.341,53.807,false
-color.rs,0.000,0.000,306.000,68.000,false
-command.rs,25.859,0.718,41.018,22.612,false
-context.rs,24.316,0.737,33.468,9.962,false
-error.rs,0.531,0.031,257.941,64.000,false
-flag.rs,34.696,0.738,48.329,15.870,false
-help.rs,1.500,0.500,3.000,0.120,false
-lib.rs,0.071,0.071,1.000,0.040,false
-multiple_app.rs,0.000,0.000,552.000,92.000,false
-single_app.rs,0.000,0.000,20.000,16.000,false
-AVG,16.609,0.359,138.710,34.241,false
-MIN,0.000,0.000,1.000,0.040,false
-MAX,79.118,0.791,552.000,92.000,false
-LIST OF IGNORED FILES,----------,----------,----------,----------,----------
-action.rs,0.000,0.000,0.000,0.000,true
-TOTAL FILES IGNORED,1,,,,
+FILE,SIFIS PLAIN,SIFIS QUANTIZED,CRAP,SKUNK,IGNORED,IS COMPLEX,FILE PATH
+app.rs,79.118,0.791,124.341,53.807,false,true,src/app.rs
+color.rs,0.000,0.000,306.000,68.000,false,true,src/color.rs
+command.rs,25.859,0.718,41.018,22.612,false,true,src/command.rs
+context.rs,24.316,0.737,33.468,9.962,false,false,src/context.rs
+error.rs,0.531,0.031,257.941,64.000,false,true,src/error.rs
+flag.rs,34.696,0.738,48.329,15.870,false,true,src/flag.rs
+help.rs,1.500,0.500,3.000,0.120,false,false,src/help.rs
+lib.rs,0.071,0.071,1.000,0.040,false,false,src/lib.rs
+multiple_app.rs,0.000,0.000,552.000,92.000,false,true,examples/multiple_app.rs
+single_app.rs,0.000,0.000,20.000,16.000,false,false,examples/single_app.rs
+AVG,16.609,0.359,138.710,34.241,false,false,-
+MAX,79.118,0.791,552.000,92.000,false,false,-
+LIST OF COMPLEX FILES,----------,----------,----------,----------,----------,----------,----------
+app.rs,79.118,0.791,124.341,53.807,false,true,src/app.rs
+color.rs,0.000,0.000,306.000,68.000,false,true,src/color.rs
+command.rs,25.859,0.718,41.018,22.612,false,true,src/command.rs
+error.rs,0.531,0.031,257.941,64.000,false,true,src/error.rs
+flag.rs,34.696,0.738,48.329,15.870,false,true,src/flag.rs
+multiple_app.rs,0.000,0.000,552.000,92.000,false,true,examples/multiple_app.rs
+TOTAL COMPLEX FILES,6,,,,,,
+LIST OF IGNORED FILES,----------,----------,----------,----------,----------,----------,----------
+../TimeAnalysis/seahorse-1.1.2/src/action.rs,0.000,0.000,0.000,0.000,true,-,-
+TOTAL FILES IGNORED,1,,,,,,
