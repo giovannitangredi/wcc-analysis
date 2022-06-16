@@ -6,26 +6,29 @@ import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
 
-
-def print_plot(x,vec,img_path,title): 
+#avg_cyc[, avg_cogn, max_cyc, max_cogn,min_cyc, min_cogn
+def print_bar_plot(x,vec,img_path,title): 
    
+    V_axis = []
     X_axis = np.arange(len(x))
-    avg_cyc= []
-    max_cyc= []
-    avg_cogn= []
-    max_cogn= []
+    Y_axis=[]
+    for v in x:
+        V_axis.append([v+'_AVG_CYC',v+'_MAX_CYC',v+'_MIN_CYC',v+'_AVG_COG',v+'_MAX_COG',v+'_MIN_COG'])
+    min_y=float("inf")
+    max_y=0
     for rows in vec:
-        avg_cyc.append(rows[0])
-        max_cyc.append(rows[2])
-        avg_cogn.append(rows[1])
-        max_cogn.append(rows[3])
+        Y_axis.append([rows[0],rows[2],rows[4],rows[1],rows[3],rows[5]])
+    for y in Y_axis:
+        for value in y:
+            min_y=min(min_y,value)
+            max_y=max(max_y,value)
+    min_y = min_y-0.05*min_y
     plt.rcParams.update({'font.size': 12})
-    figure(figsize=(20,16), dpi=80)
-    plt.bar(X_axis - 0.3, avg_cyc, 0.2, label = 'AVG Cyclomatic', color='#009302')
-    plt.bar(X_axis - 0.1, max_cyc, 0.2, label = 'MAX Cyclomatic', color='#000FFF')
-    plt.bar(X_axis + 0.1, avg_cogn, 0.2, label = 'AVG Cognitive', color='#00FF03')
-    plt.bar(X_axis + 0.3, max_cogn, 0.2, label = 'MAX Cognitive', color='#747BF0')
-    plt.xticks(X_axis, x)
+    figure(figsize=(25,20), dpi=80)
+    for i in range(0,len(x)):
+        plt.bar(V_axis[i], Y_axis[i], 0.2, label = x[i])
+    plt.xticks(rotation='vertical')
+    plt.ylim(min_y,max_y)
     plt.xlabel("projects")
     plt.ylabel("Complexity")
     plt.title(title)
@@ -38,9 +41,10 @@ def static_analysis(path_to_csvs,image_name):
     files = []
     avg_cyc= []
     max_cyc= []
+    min_cyc= []
     avg_cogn= []
     max_cogn= []
-    n_complex= []
+    min_cogn= []
     for file in os.listdir(path_to_csvs):
         if file.endswith(".csv"):
             files.append(file)
@@ -61,8 +65,12 @@ def static_analysis(path_to_csvs,image_name):
                         max_cyc.append([float(row[1]),float(row[2]),float(row[3]),float(row[4])])
                      else:
                         max_cogn.append([float(row[1]),float(row[2]),float(row[3]),float(row[4])])
-                if row[0] == "TOTAL COMPLEX FILES":
-                    n_complex.append(float(row[1]))
+                if row[0] == 'MIN':
+                     if file.split("_")[1] == "cyc.csv":
+                        min_cyc.append([float(row[1]),float(row[2]),float(row[3]),float(row[4])])
+                     else:
+                        min_cogn.append([float(row[1]),float(row[2]),float(row[3]),float(row[4])])
+                        
     x=[]
     for f in files:
         no_ext_f = f[:len(f) - 4]
@@ -75,14 +83,14 @@ def static_analysis(path_to_csvs,image_name):
     crap=[]
     skunk=[]
     for i in range(len(avg_cyc)):
-        sifis.append( [avg_cyc[i][0], avg_cogn[i][0], max_cyc[i][0], max_cogn[i][0]])
-        sifis_q.append( [avg_cyc[i][1], avg_cogn[i][1], max_cyc[i][1], max_cogn[i][1]])
-        crap.append( [avg_cyc[i][2], avg_cogn[i][2], max_cyc[i][2], max_cogn[i][2]])
-        skunk.append( [avg_cyc[i][3], avg_cogn[i][3], max_cyc[i][3], max_cogn[i][3]])
-    print_plot(x,sifis,'./img/Static/'+image_name+'_sifis.png',"Sifis")
-    print_plot(x,sifis_q,'./img/Static/'+image_name+'_sifis_quantized.png',"Sifis Quantized")
-    print_plot(x,crap,'./img/Static/'+image_name+'_crap.png',"CRAP")
-    print_plot(x,skunk,'./img/Static/'+image_name+'_skunk.png',"SkunkScore")
+        sifis.append( [avg_cyc[i][0], avg_cogn[i][0], max_cyc[i][0], max_cogn[i][0],min_cyc[i][0], min_cogn[i][0]])
+        sifis_q.append( [avg_cyc[i][1], avg_cogn[i][1], max_cyc[i][1], max_cogn[i][1],min_cyc[i][1], min_cogn[i][1]])
+        crap.append( [avg_cyc[i][2], avg_cogn[i][2], max_cyc[i][2], max_cogn[i][2],min_cyc[i][2], min_cogn[i][2]])
+        skunk.append( [avg_cyc[i][3], avg_cogn[i][3], max_cyc[i][3], max_cogn[i][3],min_cyc[i][3], min_cogn[i][3]])
+    print_bar_plot(x,sifis,'./img/Static/'+image_name+'_sifis.png',"Sifis")
+    print_bar_plot(x,sifis_q,'./img/Static/'+image_name+'_sifis_quantized.png',"Sifis Quantized")
+    print_bar_plot(x,crap,'./img/Static/'+image_name+'_crap.png',"CRAP")
+    print_bar_plot(x,skunk,'./img/Static/'+image_name+'_skunk.png',"SkunkScore")
     return
 
 static_analysis("./StaticAnalysis","static_analysis")
