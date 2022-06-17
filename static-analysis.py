@@ -5,6 +5,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
+def get_ticks(Y_axis):
+    vec=[y for ys in Y_axis for y in ys]
+    ymin= min(vec)
+    ymax= max(vec)
+    step = round((ymax-ymin)/20.0,2)
+    ticks=np.arange(ymin,ymax,step=step)
+    
+    return np.append(ticks,ymax)
 
 #avg_cyc[, avg_cogn, max_cyc, max_cogn,min_cyc, min_cogn
 def print_bar_plot(x,vec,img_path,title): 
@@ -22,13 +30,13 @@ def print_bar_plot(x,vec,img_path,title):
         for value in y:
             min_y=min(min_y,value)
             max_y=max(max_y,value)
-    min_y = min_y-0.05*min_y
     plt.rcParams.update({'font.size': 12})
     figure(figsize=(25,20), dpi=80)
     for i in range(0,len(x)):
         plt.bar(V_axis[i], Y_axis[i], 0.2, label = x[i])
     plt.xticks(rotation='vertical')
-    plt.ylim(min_y,max_y)
+    plt.yticks(get_ticks(Y_axis))
+    plt.ylim(min_y)
     plt.xlabel("projects")
     plt.ylabel("Complexity")
     plt.title(title)
@@ -87,8 +95,8 @@ def static_analysis(path_to_csvs,image_name):
         sifis_q.append( [avg_cyc[i][1], avg_cogn[i][1], max_cyc[i][1], max_cogn[i][1],min_cyc[i][1], min_cogn[i][1]])
         crap.append( [avg_cyc[i][2], avg_cogn[i][2], max_cyc[i][2], max_cogn[i][2],min_cyc[i][2], min_cogn[i][2]])
         skunk.append( [avg_cyc[i][3], avg_cogn[i][3], max_cyc[i][3], max_cogn[i][3],min_cyc[i][3], min_cogn[i][3]])
-    print_bar_plot(x,sifis,'./img/Static/'+image_name+'_sifis.png',"Sifis")
-    print_bar_plot(x,sifis_q,'./img/Static/'+image_name+'_sifis_quantized.png',"Sifis Quantized")
+    print_bar_plot(x,sifis,'./img/Static/'+image_name+'_wcc_plain.png',"WCC Plain")
+    print_bar_plot(x,sifis_q,'./img/Static/'+image_name+'_wcc_quantized.png',"WCC Quantized")
     print_bar_plot(x,crap,'./img/Static/'+image_name+'_crap.png',"CRAP")
     print_bar_plot(x,skunk,'./img/Static/'+image_name+'_skunk.png',"SkunkScore")
     return

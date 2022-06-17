@@ -19,11 +19,11 @@ def print_plot(versions,vec,img_path):
     figure.set_size_inches(24, 20)
     axis[0, 0].plot(versions, sifis)
     axis[0, 0].scatter(versions, sifis,color="r")
-    axis[0, 0].set_title("Sifis Plain")
+    axis[0, 0].set_title("WCC Plain")
     axis[0, 0].set_xlabel('versions')
     axis[0, 1].plot(versions, sifis_q)
     axis[0, 1].scatter(versions, sifis_q,color="r")
-    axis[0, 1].set_title("Sifis Quantized")
+    axis[0, 1].set_title("WCC Quantized")
     axis[0, 1].set_xlabel('versions')
     axis[1, 0].plot(versions, crap)
     axis[1, 0].scatter(versions, crap,color="r")
@@ -39,19 +39,10 @@ def print_plot(versions,vec,img_path):
 
 def plot_complex(versions,complex,total,img_path):
     plt.rcParams.update({'font.size': 12})
+    plt.rcParams["figure.autolayout"] = True
     figure(figsize=(30,24), dpi=80)
-    min_y=float("inf")
-    max_y=0
-    for y in total:
-            min_y=min(min_y,y)
-            max_y=max(max_y,y)
     plt.bar(versions, total, 0.5, label="Total number of files")
     plt.bar(versions, complex, 0.5,color="r", label="Total number of complex files")
-    if(min_y-5<0):
-        min_y=0
-    else:
-        min_y=min_y-5
-    plt.ylim(min_y,max_y)
     plt.xlabel("versions")
     plt.ylabel("Number of complex files")
     plt.title("Complex files")
