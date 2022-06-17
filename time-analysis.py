@@ -40,9 +40,11 @@ def print_plot(versions,vec,img_path):
 def plot_complex(versions,complex,total,img_path):
     plt.rcParams.update({'font.size': 12})
     plt.rcParams["figure.autolayout"] = True
-    figure(figsize=(30,24), dpi=80)
-    plt.bar(versions, total, 0.5, label="Total number of files")
-    plt.bar(versions, complex, 0.5,color="r", label="Total number of complex files")
+    figure(figsize=(20,11), dpi=80)
+    ratios = np.divide(complex,total)
+    ratios= np.multiply(ratios,100.0)
+    plt.bar(versions, np.full(len(versions),100), 0.3, label="Total number of files")
+    plt.bar(versions, ratios, 0.3,color="r", label="percentage of complex files")
     plt.xlabel("versions")
     plt.ylabel("Number of complex files")
     plt.title("Complex files")

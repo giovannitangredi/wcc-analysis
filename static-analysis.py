@@ -12,7 +12,7 @@ def get_ticks(Y_axis):
     step = round((ymax-ymin)/20.0,2)
     ticks=np.arange(ymin,ymax,step=step)
     
-    return np.append(ticks,ymax)
+    return np.append(ticks,ticks[len(ticks)-1]+step)
 
 #avg_cyc[, avg_cogn, max_cyc, max_cogn,min_cyc, min_cogn
 def print_bar_plot(x,vec,img_path,title): 
