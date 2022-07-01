@@ -40,14 +40,33 @@ def print_plot(versions,vec,img_path):
 def plot_complex(versions,complex,total,img_path):
     plt.rcParams.update({'font.size': 12})
     plt.rcParams["figure.autolayout"] = True
-    figure(figsize=(20,11), dpi=80)
+    figure(figsize=(22,16), dpi=80)
+    plt.bar(versions, total, 0.3, label="Total number of files")
+    plt.bar(versions, complex, 0.3,color="r", label="number of complex files")
+    for i in range(0,len(versions)):
+        plt.text(i, complex[i]//2,str(complex[i]), color='black', ha='center', fontweight='bold')
+        plt.text(i, (total[i]-complex[i])//2 +complex[i],str(total[i]), color='black', ha='center', fontweight='bold')
+    plt.xlabel("versions")
+    plt.ylabel("number of complex files")
+    plt.title("Complex files")
+    plt.legend()
+    plt.savefig(img_path)
+    plt.cla()
+    return
+
+def plot_complex_percentage(versions,complex,total,img_path):
+    plt.rcParams.update({'font.size': 12})
+    plt.rcParams["figure.autolayout"] = True
+    figure(figsize=(22,16), dpi=80)
     ratios = np.divide(complex,total)
     ratios= np.multiply(ratios,100.0)
     plt.bar(versions, np.full(len(versions),100), 0.3, label="Total number of files")
     plt.bar(versions, ratios, 0.3,color="r", label="percentage of complex files")
+    for i in range(0,len(versions)):
+        plt.text(i, ratios[i]//2,str(round(ratios[i],2)), color='black', ha='center', fontweight='bold')
     plt.xlabel("versions")
-    plt.ylabel("Number of complex files")
-    plt.title("Complex files")
+    plt.ylabel("percentage of complex files")
+    plt.title("Complex files Percentage")
     plt.legend()
     plt.savefig(img_path)
     plt.cla()
@@ -92,6 +111,7 @@ def time_analysis(path_to_csvs, image_name) :
     print_plot(versions,avg,'./img/Time/'+image_name+'_avg.png')
     print_plot(versions,max,'./img/Time/'+image_name+'_max.png')
     plot_complex(versions,n_complex,n_files,'./img/Time/'+image_name+'_complex_files.png')
+    plot_complex_percentage(versions,n_complex,n_files,'./img/Time/'+image_name+'_complex_files_percentage.png')
     return
 
 time_analysis("./TimeAnalysis/rust-analyzer","rust-analyzer")

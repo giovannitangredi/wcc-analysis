@@ -34,6 +34,8 @@ def print_bar_plot(x,vec,img_path,title):
     figure(figsize=(25,20), dpi=80)
     for i in range(0,len(x)):
         plt.bar(V_axis[i], Y_axis[i], 0.2, label = x[i])
+        for j in range(0,len(Y_axis[i])):
+            plt.text(V_axis[i][j], Y_axis[i][j]//2,str(round(Y_axis[i][j],2)), color='black', ha='center', fontweight='bold')
     plt.xticks(rotation='vertical')
     plt.yticks(get_ticks(Y_axis))
     plt.ylim(min_y)
