@@ -38,36 +38,41 @@ def print_plot(versions,vec,img_path):
     return
 
 def plot_complex(versions,complex,total,img_path):
-    plt.rcParams.update({'font.size': 12})
+    plt.rcParams.update({'font.size': 18})
     plt.rcParams["figure.autolayout"] = True
     figure(figsize=(22,16), dpi=80)
-    plt.bar(versions, total, 0.3, label="Total number of files")
-    plt.bar(versions, complex, 0.3,color="r", label="number of complex files")
-    for i in range(0,len(versions)):
-        plt.text(i, complex[i]//2,str(complex[i]), color='black', ha='center', fontweight='bold')
-        plt.text(i, (total[i]-complex[i])//2 +complex[i],str(total[i]), color='black', ha='center', fontweight='bold')
-    plt.xlabel("versions")
-    plt.ylabel("number of complex files")
+    #bar1=plt.bar(versions, total, 0.4, label="Remaining number of files")
+    #bar2=plt.bar(versions, complex, 0.4,color="r", label="number of complex files")
+    #for i in range(0,len(versions)):
+        #plt.text(i, complex[i]//2,str(complex[i]), color='black', ha='center', fontweight='bold')
+        #plt.text(i, (total[i]-complex[i])//2 +complex[i],str(total[i]), color='black', ha='center', fontweight='bold')
+    bar1=plt.barh(versions, total, 0.4, label="Remaining number of files")
+    bar2=plt.barh(versions, complex, 0.4,color="r", label="number of complex files")
+    plt.bar_label(bar1,label_type='center',padding=500,color="snow")
+    plt.bar_label(bar2,label_type='center',color="snow")
+    plt.ylabel("versions")
+    plt.xlabel("number of complex files")
     plt.title("Complex files")
-    plt.legend()
+    plt.legend(loc='upper right',prop={'size': 13})
     plt.savefig(img_path)
     plt.cla()
     return
 
 def plot_complex_percentage(versions,complex,total,img_path):
-    plt.rcParams.update({'font.size': 12})
+    plt.rcParams.update({'font.size': 18})
     plt.rcParams["figure.autolayout"] = True
     figure(figsize=(22,16), dpi=80)
     ratios = np.divide(complex,total)
     ratios= np.multiply(ratios,100.0)
-    plt.bar(versions, np.full(len(versions),100), 0.3, label="Total number of files")
-    plt.bar(versions, ratios, 0.3,color="r", label="percentage of complex files")
-    for i in range(0,len(versions)):
-        plt.text(i, ratios[i]//2,str(round(ratios[i],2)), color='black', ha='center', fontweight='bold')
-    plt.xlabel("versions")
-    plt.ylabel("percentage of complex files")
+    plt.barh(versions, np.full(len(versions),100), 0.3, label=" Remaining number of files")
+    bar=plt.barh(versions, ratios, 0.3,color="r", label="percentage of complex files")
+    #for i in range(0,len(versions)):
+        #plt.text(i, ratios[i]//2,str(round(ratios[i],2)), color='black', ha='center', fontweight='bold')
+    plt.bar_label(bar,label_type='center',color="snow",fmt="%.2f %%")
+    plt.ylabel("versions")
+    plt.xlabel("percentage of complex files")
     plt.title("Complex files Percentage")
-    plt.legend()
+    plt.legend(loc='upper right',prop={'size': 13})
     plt.savefig(img_path)
     plt.cla()
     return

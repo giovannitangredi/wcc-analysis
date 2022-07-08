@@ -9,10 +9,18 @@ def get_ticks(Y_axis):
     vec=[y for ys in Y_axis for y in ys]
     ymin= min(vec)
     ymax= max(vec)
-    step = round((ymax-ymin)/20.0,2)
-    ticks=np.arange(ymin,ymax,step=step)
-    
-    return np.append(ticks,ticks[len(ticks)-1]+step)
+    #delta = (ymax-ymin)/200
+    #res=[]
+    #vec.sort()
+    #for i in range(1,len(vec)):
+        #if(vec[i]-vec[i-1]>delta) :
+            #res.append(vec[i-1])
+   #res.append(vec[len(vec)-1])
+    npv=np.linspace(ymin,ymax,100)
+    res = npv[0::2]
+    #for x in npv:
+        #res.append(x)
+    return res
 
 #avg_cyc[, avg_cogn, max_cyc, max_cogn,min_cyc, min_cogn
 def print_bar_plot(x,vec,img_path,title): 
@@ -30,15 +38,16 @@ def print_bar_plot(x,vec,img_path,title):
         for value in y:
             min_y=min(min_y,value)
             max_y=max(max_y,value)
-    plt.rcParams.update({'font.size': 12})
-    figure(figsize=(25,20), dpi=80)
+    plt.rcParams.update({'font.size': 18})
+    figure(figsize=(36,30), dpi=80)
     for i in range(0,len(x)):
-        plt.bar(V_axis[i], Y_axis[i], 0.2, label = x[i])
-        for j in range(0,len(Y_axis[i])):
-            plt.text(V_axis[i][j], Y_axis[i][j]//2,str(round(Y_axis[i][j],2)), color='black', ha='center', fontweight='bold')
-    plt.xticks(rotation='vertical')
-    plt.yticks(get_ticks(Y_axis))
-    plt.ylim(min_y)
+        bar=plt.barh(V_axis[i], Y_axis[i], 0.6, label = x[i])
+        plt.bar_label(bar,padding=5)
+    #    for j in range(0,len(Y_axis[i])):
+    #        plt.text(V_axis[i][j], Y_axis[i][j]//2,str(round(Y_axis[i][j],2)), color='black', ha='center', fontweight='bold')
+    #plt.yticks(rotation='vertical')
+    plt.xticks(get_ticks(Y_axis),rotation="vertical")
+    plt.xlim(min_y)
     plt.xlabel("projects")
     plt.ylabel("Complexity")
     plt.title(title)
