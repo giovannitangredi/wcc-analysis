@@ -1,5 +1,6 @@
 import os
 import csv
+from importlib_metadata import version
 import numpy as np
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
@@ -43,17 +44,22 @@ def plot_complex(versions,complex,total,img_path):
     figure(figsize=(22,16), dpi=80)
     #bar1=plt.bar(versions, total, 0.4, label="Remaining number of files")
     #bar2=plt.bar(versions, complex, 0.4,color="r", label="number of complex files")
-    #for i in range(0,len(versions)):
+    for i in range(0,len(versions)):
         #plt.text(i, complex[i]//2,str(complex[i]), color='black', ha='center', fontweight='bold')
-        #plt.text(i, (total[i]-complex[i])//2 +complex[i],str(total[i]), color='black', ha='center', fontweight='bold')
+        plt.text( (total[i]-complex[i])//2 +complex[i],i,str(total[i]-complex[i]), color='snow', va='center',ha='center',fontweight='bold')
     bar1=plt.barh(versions, total, 0.4, label="Remaining number of files")
-    bar2=plt.barh(versions, complex, 0.4,color="r", label="number of complex files")
-    plt.bar_label(bar1,label_type='center',padding=500,color="snow")
-    plt.bar_label(bar2,label_type='center',color="snow")
-    plt.ylabel("versions")
-    plt.xlabel("number of complex files")
+    bar2=plt.barh(versions, complex, 0.4,color="r", label="Number of complex files")
+    plt.bar_label(bar1,padding=5,fontweight='bold')
+    plt.bar_label(bar2,label_type='center',color="snow",fontweight='bold')
+    yt=versions.copy()
+    yt.append("")
+    plt.yticks(yt)
+    plt.ylabel("versions",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.xlabel("number of complex files",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
     plt.title("Complex files")
-    plt.legend(loc='upper right',prop={'size': 13})
+    handles, labels = plt.gca().get_legend_handles_labels()
+    order = [1,0]
+    plt.legend([handles[idx] for idx in order],[labels[idx] for idx in order],loc='upper right',prop={'size': 20})
     plt.savefig(img_path)
     plt.cla()
     return
@@ -64,15 +70,20 @@ def plot_complex_percentage(versions,complex,total,img_path):
     figure(figsize=(22,16), dpi=80)
     ratios = np.divide(complex,total)
     ratios= np.multiply(ratios,100.0)
-    plt.barh(versions, np.full(len(versions),100), 0.3, label=" Remaining number of files")
-    bar=plt.barh(versions, ratios, 0.3,color="r", label="percentage of complex files")
-    #for i in range(0,len(versions)):
-        #plt.text(i, ratios[i]//2,str(round(ratios[i],2)), color='black', ha='center', fontweight='bold')
-    plt.bar_label(bar,label_type='center',color="snow",fmt="%.2f %%")
-    plt.ylabel("versions")
-    plt.xlabel("percentage of complex files")
+    plt.barh(versions, np.full(len(versions),100), 0.3, label="Remaining number of files")
+    bar=plt.barh(versions, ratios, 0.3,color="r", label="Percentage of complex files")
+    for i in range(0,len(versions)):
+        plt.text(ratios[i]+((100.0-ratios[i])//2), i,str(round(100.0-ratios[i],2))+"%", color='snow',va='center', ha='center',fontweight='bold')
+    plt.bar_label(bar,label_type='center',color="snow",fmt="%.2f %%",fontweight='bold')
+    yt=versions.copy()
+    yt.append("")
+    plt.yticks(yt)
+    plt.ylabel("versions",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.xlabel("percentage of complex files",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
     plt.title("Complex files Percentage")
-    plt.legend(loc='upper right',prop={'size': 13})
+    handles, labels = plt.gca().get_legend_handles_labels()
+    order = [1,0]
+    plt.legend([handles[idx] for idx in order],[labels[idx] for idx in order],loc='upper right',prop={'size': 20})
     plt.savefig(img_path)
     plt.cla()
     return

@@ -16,11 +16,11 @@ def get_ticks(Y_axis):
         #if(vec[i]-vec[i-1]>delta) :
             #res.append(vec[i-1])
    #res.append(vec[len(vec)-1])
-    npv=np.linspace(ymin,ymax,100)
-    res = npv[0::2]
+    npv=np.linspace(ymin,ymax,30)
+    #res = npv[0::2]
     #for x in npv:
         #res.append(x)
-    return res
+    return npv
 
 #avg_cyc[, avg_cogn, max_cyc, max_cogn,min_cyc, min_cogn
 def print_bar_plot(x,vec,img_path,title): 
@@ -46,10 +46,10 @@ def print_bar_plot(x,vec,img_path,title):
     #    for j in range(0,len(Y_axis[i])):
     #        plt.text(V_axis[i][j], Y_axis[i][j]//2,str(round(Y_axis[i][j],2)), color='black', ha='center', fontweight='bold')
     #plt.yticks(rotation='vertical')
-    plt.xticks(get_ticks(Y_axis),rotation="vertical")
+    plt.xticks(get_ticks(Y_axis),rotation=45)
     plt.xlim(min_y)
-    plt.xlabel("projects")
-    plt.ylabel("Complexity")
+    plt.xlabel("projects",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.ylabel("Complexity",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
     plt.title(title)
     plt.legend()
     plt.savefig(img_path)
