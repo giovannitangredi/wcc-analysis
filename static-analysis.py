@@ -42,7 +42,7 @@ def print_bar_plot(x,vec,img_path,title):
     figure(figsize=(36,30), dpi=80)
     for i in range(0,len(x)):
         bar=plt.barh(V_axis[i], Y_axis[i], 0.6, label = x[i])
-        plt.bar_label(bar,padding=5)
+        plt.bar_label(bar,padding=5,fontweight='bold')
     #    for j in range(0,len(Y_axis[i])):
     #        plt.text(V_axis[i][j], Y_axis[i][j]//2,str(round(Y_axis[i][j],2)), color='black', ha='center', fontweight='bold')
     #plt.yticks(rotation='vertical')
