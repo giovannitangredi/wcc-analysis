@@ -1,7 +1,10 @@
 
+from cProfile import label
+from logging import root
 import os
 import csv
 import numpy as np
+import json
 import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 
@@ -112,4 +115,53 @@ def static_analysis(path_to_csvs,image_name):
     print_bar_plot(x,skunk,'./img/Static/'+image_name+'_skunk.png',"SkunkScore")
     return
 
-static_analysis("./StaticAnalysis","static_analysis")
+def check_not_cum(file_name):
+    return file_name != "AVG" and file_name != "MAX" and file_name != "MIN" and file_name != "PROJECT"
+
+def plot_most_significant_functions(img_path,map):
+    s_cyc = map["seahorse_functions_cyc.json"]
+    s_cogn = map["seahorse_functions_cogn.json"]
+    x=[]
+    y=[]
+    msf = s_cyc[0]["functions"].copy()
+    msf.sort(key=lambda x: x["metrics"]["sifis_plain"], reverse=True)
+    msf=msf[0:5]
+    #print(msf[0:5])
+    x.append(s_cyc[0]["file_name"])
+    y.append(s_cyc[0]["metrics"]["sifis_plain"])
+    for f in msf:
+        x.append(f["function_name"])
+        y.append(f["metrics"]["sifis_plain"])
+    plt.rcParams.update({'font.size': 18})
+    figure(figsize=(36,30), dpi=80)
+    bar=plt.barh(x, y, 0.6,label="functions")
+    plt.bar_label(bar,padding=5,fontweight='bold')
+    plt.xticks(rotation=45)
+    #plt.xlim(min(y))
+    plt.xlabel("Functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.ylabel("Complexity",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.title("Seahorse Function By WCC PLAIN")
+    plt.legend()
+    plt.savefig(img_path)
+    plt.cla()
+    return
+def static_analysis_functions(path_to_jsons,image_name):
+    files=[]
+    map = dict()
+    for file in os.listdir(path_to_jsons):
+        if file.endswith(".json"):
+            files.append(file)
+    files.sort()
+    for file in files:
+        roots=[]
+        f= open(path_to_jsons+"/"+file)
+        data = json.load(f)
+        for m in data["files"]:
+            if check_not_cum(m["file_name"]):
+                roots.append(m)
+        map[file]= roots.copy()
+    plot_most_significant_functions("./img/Static/functions/"+image_name+"_seahorse_msf.png",map)
+    return
+
+#static_analysis("./StaticAnalysis","static_analysis")
+static_analysis_functions("./StaticAnalysis","static_analysis_functions")

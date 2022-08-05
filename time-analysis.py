@@ -1,5 +1,6 @@
 import os
 import csv
+import json
 from importlib_metadata import version
 import numpy as np
 import matplotlib.pyplot as plt
@@ -130,6 +131,85 @@ def time_analysis(path_to_csvs, image_name) :
     plot_complex_percentage(versions,n_complex,n_files,'./img/Time/'+image_name+'_complex_files_percentage.png')
     return
 
-time_analysis("./TimeAnalysis/rust-analyzer","rust-analyzer")
-time_analysis("./TimeAnalysis/seahorse","seahorse")
+def check_not_cum(file_name):
+    return file_name != "AVG" and file_name != "MAX" and file_name != "MIN" and file_name != "PROJECT"
+
+
+def plot_complex_functions(image_path,map,map_complex):
+    plt.rcParams.update({'font.size': 18})
+    plt.rcParams["figure.autolayout"] = True
+    figure(figsize=(22,16), dpi=80)
+    x=[]
+    total=[]
+    complex=[]
+    for key,roots in map.items():
+        no_ext_f = key[:len(key) - 4]
+        x.append("-".join(no_ext_f.split("-")[1:]))
+        complex.append(map_complex[key])
+        vt=0
+        for r in roots:
+            vt += len(r["functions"])
+        total.append(vt)
+    for i in range(0,len(x)):
+        plt.text( (total[i]-complex[i])//2 +complex[i],i,str(total[i]-complex[i]), color='snow', va='center',ha='center',fontweight='bold')
+    bar1=plt.barh(x, total, 0.4, label="Remaining number of function")
+    bar2=plt.barh(x, complex, 0.4,color="r", label="Number of complex function")
+    plt.bar_label(bar1,padding=5,fontweight='bold')
+    plt.bar_label(bar2,label_type='center',color="snow",fontweight='bold')
+    yt=x.copy()
+    yt.append("")
+    plt.yticks(yt)
+    plt.ylabel("versions",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.xlabel("number of complex functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.title("Complex function")
+    handles, labels = plt.gca().get_legend_handles_labels()
+    order = [1,0]
+    plt.legend([handles[idx] for idx in order],[labels[idx] for idx in order],loc='upper right',prop={'size': 20})
+    plt.savefig(image_path+".png")
+    plt.cla()
+    # PErcentage
+    ratios = np.divide(complex,total)
+    ratios= np.multiply(ratios,100.0)
+    for i in range(0,len(x)):
+        plt.text( (100.0-ratios[i])//2 +ratios[i],i,str(round(100.0-ratios[i],2))+" %", color='snow', va='center',ha='center',fontweight='bold')
+    bar1=plt.barh(x, np.full(len(x),100), 0.4, label="Remaining percentage of function")
+    bar2=plt.barh(x, ratios, 0.4,color="r", label="Percentage of complex function")
+    #plt.bar_label(bar1,padding=5,fontweight='bold')
+    plt.bar_label(bar2,label_type='center',fmt="%.2f %%",color="snow",fontweight='bold')
+    yt=x.copy()
+    yt.append("")
+    plt.yticks(yt)
+    plt.ylabel("versions",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.xlabel("number of complex functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.title("Complex function Percentage")
+    handles, labels = plt.gca().get_legend_handles_labels()
+    order = [1,0]
+    plt.legend([handles[idx] for idx in order],[labels[idx] for idx in order],loc='upper right',prop={'size': 20})
+    plt.savefig(image_path+"_percentage.png")
+    plt.cla()
+    return
+
+def time_analysis_functions(path_to_jsons, image_name):
+    versions=[]
+    map = dict()
+    map_complex = dict()
+    for file in os.listdir(path_to_jsons):
+        if file.endswith(".json"):
+            versions.append(file)
+    versions.sort()
+    for v in versions:
+        roots=[]
+        f= open(path_to_jsons+"/"+v)
+        data = json.load(f)
+        map_complex[v]=data["number_of_complex_functions"]
+        for m in data["files"]:
+            if check_not_cum(m["file_name"]):
+                roots.append(m)
+        map[v]= roots.copy()
+        plot_complex_functions("./img/Time/functions/"+image_name+"_complex",map,map_complex)
+
+#time_analysis("./TimeAnalysis/rust-analyzer","rust-analyzer")
+#time_analysis("./TimeAnalysis/seahorse","seahorse")
+time_analysis_functions("./TimeAnalysis/rust-analyzer","rust-analyzer")
+time_analysis_functions("./TimeAnalysis/seahorse","seahorse")
     
