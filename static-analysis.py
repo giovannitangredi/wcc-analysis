@@ -115,36 +115,93 @@ def static_analysis(path_to_csvs,image_name):
     print_bar_plot(x,skunk,'./img/Static/'+image_name+'_skunk.png',"SkunkScore")
     return
 
+## FUNCTIONS
+
+
+
 def check_not_cum(file_name):
     return file_name != "AVG" and file_name != "MAX" and file_name != "MIN" and file_name != "PROJECT"
 
-def plot_most_significant_functions(img_path,map):
-    s_cyc = map["seahorse_functions_cyc.json"]
-    s_cogn = map["seahorse_functions_cogn.json"]
+def plot_most_significant_functions(img_path,map,key,index):
+    s_cyc = map[key]
     x=[]
     y=[]
-    msf = s_cyc[0]["functions"].copy()
+    msf = s_cyc[index]["functions"].copy()
     msf.sort(key=lambda x: x["metrics"]["sifis_plain"], reverse=True)
     msf=msf[0:5]
-    #print(msf[0:5])
-    x.append(s_cyc[0]["file_name"])
-    y.append(s_cyc[0]["metrics"]["sifis_plain"])
+    name =s_cyc[index]["file_name"]
+    sp=s_cyc[index]["metrics"]["sifis_plain"]
     for f in msf:
         x.append(f["function_name"])
         y.append(f["metrics"]["sifis_plain"])
-    plt.rcParams.update({'font.size': 18})
-    figure(figsize=(36,30), dpi=80)
-    bar=plt.barh(x, y, 0.6,label="functions")
-    plt.bar_label(bar,padding=5,fontweight='bold')
-    plt.xticks(rotation=45)
+    plt.rcParams.update({'font.size': 10})
+    figure, axis = plt.subplots(2, 2)
+    figure.set_size_inches(40, 36)
+    bar=axis[0,0].barh(x, y, 0.6,label="functions")
+    axis[0,0].bar_label(bar,padding=5,fontweight='bold')
+    #axis[0,0].set_xticks(y,rotation=45)
     #plt.xlim(min(y))
-    plt.xlabel("Functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
-    plt.ylabel("Complexity",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
-    plt.title("Seahorse Function By WCC PLAIN")
+    axis[0,0].set_xlabel("Functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
+    axis[0,0].set_ylabel("Complexity",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    title = key[:len(key)-4].split("_")[0]
+    axis[0,0].set_title(title+" WCC PLAIN "+name+" "+str(sp))
+    ## WCC QUANTIZED
+    x=[]
+    y=[]
+    msf.sort(key=lambda x: x["metrics"]["sifis_quantized"], reverse=True)
+    sq = s_cyc[index]["metrics"]["sifis_quantized"]
+    msf=msf[0:5]
+    for f in msf:
+        x.append(f["function_name"])
+        y.append(f["metrics"]["sifis_quantized"])
+    bar=axis[0,1].barh(x, y, 0.6,label="functions")
+    axis[0,1].bar_label(bar,padding=5,fontweight='bold')
+    axis[0,1].set_xlabel("Functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
+    axis[0,1].set_ylabel("Complexity",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    title = key[:len(key)-4].split("_")[0]
+    axis[0,1].set_title(title+" WCC QUANTIZED "+name+" "+str(sq))
+    ## crap
+    x=[]
+    y=[]
+    msf.sort(key=lambda x: x["metrics"]["crap"], reverse=True)
+    sq = s_cyc[index]["metrics"]["crap"]
+    msf=msf[0:5]
+    for f in msf:
+        x.append(f["function_name"])
+        y.append(f["metrics"]["crap"])
+    bar=axis[1,0].barh(x, y, 0.6,label="functions")
+    axis[1,0].bar_label(bar,padding=5,fontweight='bold')
+    axis[1,0].set_xlabel("Functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22,)
+    axis[1,0].set_ylabel("Complexity",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    title = key[:len(key)-4].split("_")[0]
+    axis[1,0].set_title(title+" CRAP "+name+" "+str(sq))
+    ## skunk
+    x=[]
+    y=[]
+    msf.sort(key=lambda x: x["metrics"]["skunk"], reverse=True)
+    sq = s_cyc[index]["metrics"]["skunk"]
+    msf=msf[0:5]
+    for f in msf:
+        x.append(f["function_name"])
+        y.append(f["metrics"]["skunk"])
+    bar=axis[1,1].barh(x, y, 0.6,label="functions")
+    axis[1,1].bar_label(bar,padding=5,fontweight='bold')
+    axis[1,1].set_xlabel("Functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
+    axis[1,1].set_ylabel("Complexity",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    title = key[:len(key)-4].split("_")[0]
+    axis[1,1].set_title(title+" SKUNK "+name+" "+str(sq))
+    #plt.title(title+" most significant functions")
     plt.legend()
-    plt.savefig(img_path)
+    plt.savefig(img_path+"_"+title+"_msf.png")
     plt.cla()
     return
+
+def plot_all(img_path,map):
+    plot_most_significant_functions(img_path,map,"seahorse_functions_cyc.json",0)
+    plot_most_significant_functions(img_path,map,"serde_functions_cyc.json",16)
+    plot_most_significant_functions(img_path,map,"rust-analyzer_functions_cyc.json",24)
+    return 
+
 def static_analysis_functions(path_to_jsons,image_name):
     files=[]
     map = dict()
@@ -160,8 +217,8 @@ def static_analysis_functions(path_to_jsons,image_name):
             if check_not_cum(m["file_name"]):
                 roots.append(m)
         map[file]= roots.copy()
-    plot_most_significant_functions("./img/Static/functions/"+image_name+"_seahorse_msf.png",map)
+    plot_all("./img/Static/functions/"+image_name,map)
     return
 
-#static_analysis("./StaticAnalysis","static_analysis")
+static_analysis("./StaticAnalysis","static_analysis")
 static_analysis_functions("./StaticAnalysis","static_analysis_functions")

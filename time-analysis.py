@@ -131,6 +131,9 @@ def time_analysis(path_to_csvs, image_name) :
     plot_complex_percentage(versions,n_complex,n_files,'./img/Time/'+image_name+'_complex_files_percentage.png')
     return
 
+
+ ### FUNCTIONS
+
 def check_not_cum(file_name):
     return file_name != "AVG" and file_name != "MAX" and file_name != "MIN" and file_name != "PROJECT"
 
@@ -189,6 +192,85 @@ def plot_complex_functions(image_path,map,map_complex):
     plt.cla()
     return
 
+def print_mcf_per_comp(image_name,map,metric):
+    map_mcf = dict()
+    map_x = dict()
+    mcf = ("",0.0)
+    for key,roots in map.items():
+        mcf = ("",0.0)
+        for r in roots:
+            for f in r["functions"]:
+                f_name=f["function_name"].split(" ")[0]
+                comp = f["metrics"][metric]
+                if comp >= mcf[1]:
+                    mcf = (f_name,comp) 
+        if mcf[0] in map_mcf:
+            map_mcf[mcf[0]].append(mcf[1])
+        else:
+            map_mcf[mcf[0]]=[]
+            map_mcf[mcf[0]].append(mcf[1])
+        if mcf[0] in map_x:
+            map_x[mcf[0]].append(key)
+        else:
+            map_x[mcf[0]]=[]
+            map_x[mcf[0]].append(key)
+    plt.rcParams.update({'font.size': 18})
+    plt.rcParams["figure.autolayout"] = True
+    for keyf,value in map_mcf.items():
+        ##wcc plain for noe for testing
+        x=map_x[keyf]
+        y = value
+        plt.plot(x,y,label=keyf)
+        plt.scatter(x,y)
+    plt.xticks(rotation=45)
+    plt.ylabel("most complex function",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.xlabel("versions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.title("Most complex function - "+metric)
+    plt.legend()
+    plt.savefig(image_name+"_"+metric+".png")
+    plt.cla()
+    return
+
+def print_mcf_per_repo(image_name,map):
+    print_mcf_per_comp(image_name,map,"sifis_plain")
+    print_mcf_per_comp(image_name,map,"sifis_quantized")
+    print_mcf_per_comp(image_name,map,"crap")
+    print_mcf_per_comp(image_name,map,"skunk")
+    return
+
+def print_time_msf_bar(image_name,map,complexity):
+    all_x =[]
+    x_ticks=[]
+    l=0
+    for key,roots in map.items():
+        functions = [f for root in roots  for f in root["functions"]]
+        no_ext_k = key[0:len(key)-5]
+        version = "-".join(no_ext_k.split("-")[1:])
+        functions.sort(key=lambda x: x["metrics"][complexity], reverse=True)
+        functions=functions[0:3]
+        x = [x["function_name"] for x in functions]
+        y = [x["metrics"][complexity] for x in functions]
+        all_x.append(x)
+        ticks= np.arange(len(x))
+        ticks = [t + l for t in ticks]
+        l= l+len(x)
+        plt.rcParams.update({'font.size': 16})
+        plt.rcParams["figure.autolayout"] = True
+        bar = plt.bar(ticks,y,0.6,label=version)
+        plt.bar_label(bar,padding=5,fontweight='bold',fmt="%.2f")
+    plt.bar(["","","","",""],[0,0,0,0,0])
+    all_x.append(["","",""])
+    all_x = [el for x in all_x for el in x]
+    x_ticks = np.arange(len(all_x))
+    plt.xticks(x_ticks,all_x,rotation=90)
+    plt.ylabel("complexity",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.xlabel("functions per version",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.title("Most 3 complex function per version")
+    plt.legend()
+    plt.savefig(image_name+"_"+complexity+".png")
+    plt.cla()
+    return
+
 def time_analysis_functions(path_to_jsons, image_name):
     versions=[]
     map = dict()
@@ -206,10 +288,12 @@ def time_analysis_functions(path_to_jsons, image_name):
             if check_not_cum(m["file_name"]):
                 roots.append(m)
         map[v]= roots.copy()
-        plot_complex_functions("./img/Time/functions/"+image_name+"_complex",map,map_complex)
+    plot_complex_functions("./img/Time/functions/"+image_name+"_complex",map,map_complex)
+    print_mcf_per_repo("./img/Time/functions/"+image_name+"_most_complex_function",map)
+    print_time_msf_bar("./img/Time/functions/"+image_name+"_fpv",map,"sifis_plain")
 
-#time_analysis("./TimeAnalysis/rust-analyzer","rust-analyzer")
-#time_analysis("./TimeAnalysis/seahorse","seahorse")
+time_analysis("./TimeAnalysis/rust-analyzer","rust-analyzer")
+time_analysis("./TimeAnalysis/seahorse","seahorse")
 time_analysis_functions("./TimeAnalysis/rust-analyzer","rust-analyzer")
 time_analysis_functions("./TimeAnalysis/seahorse","seahorse")
     
