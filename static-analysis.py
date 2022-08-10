@@ -134,17 +134,22 @@ def plot_most_significant_functions(img_path,map,key,index):
     for f in msf:
         x.append(f["function_name"])
         y.append(f["metrics"]["sifis_plain"])
-    plt.rcParams.update({'font.size': 10})
+    plt.rcParams.update({'font.size': 18})
     figure, axis = plt.subplots(2, 2)
-    figure.set_size_inches(40, 36)
-    bar=axis[0,0].barh(x, y, 0.6,label="functions")
-    axis[0,0].bar_label(bar,padding=5,fontweight='bold')
-    #axis[0,0].set_xticks(y,rotation=45)
+    plt.subplots_adjust(wspace = 0.5 ,hspace = 0.5)
+    figure.set_size_inches(32, 24)
+    bar=axis[0,0].barh(x, y, 0.4,label="functions")
+    axis[0,0].bar_label(bar,padding=5,fontweight='bold',fmt="%.2f")
+    y_ticks = axis[0,0].get_xticks().tolist()
+    step= y_ticks[1]-y_ticks[0]
+    y_ticks.append(max(y_ticks)+step)
+    axis[0,0].set_xticks(y_ticks)
     #plt.xlim(min(y))
-    axis[0,0].set_xlabel("Functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
-    axis[0,0].set_ylabel("Complexity",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    axis[0,0].set_xlabel("Functions",loc='left',labelpad = 5,fontweight='bold',fontsize=22)
+    axis[0,0].set_ylabel("Complexity",loc='bottom',labelpad = 5,fontweight='bold',fontsize=22)
     title = key[:len(key)-4].split("_")[0]
     axis[0,0].set_title(title+" WCC PLAIN "+name+" "+str(sp))
+    axis[0,0].tick_params(axis='y', labelrotation=45)
     ## WCC QUANTIZED
     x=[]
     y=[]
@@ -154,12 +159,17 @@ def plot_most_significant_functions(img_path,map,key,index):
     for f in msf:
         x.append(f["function_name"])
         y.append(f["metrics"]["sifis_quantized"])
-    bar=axis[0,1].barh(x, y, 0.6,label="functions")
-    axis[0,1].bar_label(bar,padding=5,fontweight='bold')
-    axis[0,1].set_xlabel("Functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
-    axis[0,1].set_ylabel("Complexity",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    bar=axis[0,1].barh(x, y, 0.4,label="functions")
+    axis[0,1].bar_label(bar,padding=5,fontweight='bold',fmt="%.2f")
+    y_ticks = axis[0,1].get_xticks().tolist()
+    step= y_ticks[1]-y_ticks[0]
+    y_ticks.append(max(y_ticks)+step)
+    axis[0,1].set_xticks(y_ticks)
+    axis[0,1].set_xlabel("Functions",loc='left',labelpad = 5,fontweight='bold',fontsize=22)
+    axis[0,1].set_ylabel("Complexity",loc='bottom',labelpad = 5,fontweight='bold',fontsize=22)
     title = key[:len(key)-4].split("_")[0]
     axis[0,1].set_title(title+" WCC QUANTIZED "+name+" "+str(sq))
+    axis[0,1].tick_params(axis='y', labelrotation=45)
     ## crap
     x=[]
     y=[]
@@ -169,12 +179,17 @@ def plot_most_significant_functions(img_path,map,key,index):
     for f in msf:
         x.append(f["function_name"])
         y.append(f["metrics"]["crap"])
-    bar=axis[1,0].barh(x, y, 0.6,label="functions")
-    axis[1,0].bar_label(bar,padding=5,fontweight='bold')
-    axis[1,0].set_xlabel("Functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22,)
-    axis[1,0].set_ylabel("Complexity",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    bar=axis[1,0].barh(x, y, 0.4,label="functions")
+    axis[1,0].bar_label(bar,padding=5,fontweight='bold',fmt="%.2f")
+    y_ticks = axis[1,0].get_xticks().tolist()
+    step= y_ticks[1]-y_ticks[0]
+    y_ticks.append(max(y_ticks)+step)
+    axis[1,0].set_xticks(y_ticks)
+    axis[1,0].set_xlabel("Functions",loc='left',labelpad = 5,fontweight='bold',fontsize=22,)
+    axis[1,0].set_ylabel("Complexity",loc='bottom',labelpad = 5,fontweight='bold',fontsize=22)
     title = key[:len(key)-4].split("_")[0]
     axis[1,0].set_title(title+" CRAP "+name+" "+str(sq))
+    axis[1,0].tick_params(axis='y', labelrotation=45)
     ## skunk
     x=[]
     y=[]
@@ -184,12 +199,17 @@ def plot_most_significant_functions(img_path,map,key,index):
     for f in msf:
         x.append(f["function_name"])
         y.append(f["metrics"]["skunk"])
-    bar=axis[1,1].barh(x, y, 0.6,label="functions")
-    axis[1,1].bar_label(bar,padding=5,fontweight='bold')
-    axis[1,1].set_xlabel("Functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
-    axis[1,1].set_ylabel("Complexity",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    bar=axis[1,1].barh(x, y, 0.4,label="functions")
+    axis[1,1].bar_label(bar,padding=5,fontweight='bold',fmt="%.2f")
+    y_ticks = axis[1,1].get_xticks().tolist()
+    step= y_ticks[1]-y_ticks[0]
+    y_ticks.append(max(y_ticks)+step)
+    axis[1,1].set_xticks(y_ticks)
+    axis[1,1].set_xlabel("Functions",loc='left',labelpad = 5,fontweight='bold',fontsize=22)
+    axis[1,1].set_ylabel("Complexity",loc='bottom',labelpad = 5,fontweight='bold',fontsize=22)
     title = key[:len(key)-4].split("_")[0]
     axis[1,1].set_title(title+" SKUNK "+name+" "+str(sq))
+    axis[1,1].tick_params(axis='y', labelrotation=45)
     #plt.title(title+" most significant functions")
     plt.legend()
     plt.savefig(img_path+"_"+title+"_msf.png")
