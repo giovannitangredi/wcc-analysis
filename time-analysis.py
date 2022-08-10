@@ -72,11 +72,11 @@ def plot_complex_percentage(versions,complex,total,img_path):
     figure(figsize=(22,16), dpi=80)
     ratios = np.divide(complex,total)
     ratios= np.multiply(ratios,100.0)
-    plt.bar(versions, np.full(len(versions),100), 0.3, label="Remaining number of files")
-    bar=plt.bar(versions, ratios, 0.3,color="r", label="Percentage of complex files")
+    plt.bar(versions, np.full(len(versions),100), 0.4, label="Remaining number of files")
+    bar=plt.bar(versions, ratios, 0.4,color="r", label="Percentage of complex files")
     for i in range(0,len(versions)):
         plt.text(i,ratios[i]+((100.0-ratios[i])//2),str(round(100.0-ratios[i],2))+"%", color='snow',va='center', ha='center',fontweight='bold')
-    plt.bar_label(bar,label_type='center',color="snow",fmt="%.2f %%",fontweight='bold')
+    plt.bar_label(bar,label_type='center',color="snow",fmt="%.2f%%",fontweight='bold')
     yt=plt.yticks()[0].tolist()
     step = yt[1]-yt[0]
     #yt.append(max(yt)+step)
