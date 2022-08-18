@@ -56,8 +56,8 @@ def plot_complex(versions,complex,total,img_path):
     step = yt[1]-yt[0]
     #yt.append(max(yt)+step)
     plt.yticks(yt)
-    plt.ylabel("versions",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
-    plt.xlabel("number of complex files",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.ylabel("number of complex files",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.xlabel("versions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
     plt.title("Complex files")
     handles, labels = plt.gca().get_legend_handles_labels()
     order = [1,0]
@@ -72,8 +72,8 @@ def plot_complex_percentage(versions,complex,total,img_path):
     figure(figsize=(22,16), dpi=80)
     ratios = np.divide(complex,total)
     ratios= np.multiply(ratios,100.0)
-    plt.bar(versions, np.full(len(versions),100), 0.4, label="Remaining number of files")
-    bar=plt.bar(versions, ratios, 0.4,color="r", label="Percentage of complex files")
+    plt.bar(versions, np.full(len(versions),100), 0.5, label="Remaining number of files")
+    bar=plt.bar(versions, ratios, 0.5,color="r", label="Percentage of complex files")
     for i in range(0,len(versions)):
         plt.text(i,ratios[i]+((100.0-ratios[i])//2),str(round(100.0-ratios[i],2))+"%", color='snow',va='center', ha='center',fontweight='bold')
     plt.bar_label(bar,label_type='center',color="snow",fmt="%.2f%%",fontweight='bold')
@@ -81,8 +81,8 @@ def plot_complex_percentage(versions,complex,total,img_path):
     step = yt[1]-yt[0]
     #yt.append(max(yt)+step)
     plt.yticks(yt)
-    plt.ylabel("versions",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
-    plt.xlabel("percentage of complex files",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.ylabel("percentage of complex files",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.xlabel("versions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
     plt.title("Complex files Percentage")
     handles, labels = plt.gca().get_legend_handles_labels()
     order = [1,0]
@@ -277,6 +277,12 @@ def print_time_msf_bar(image_name,map,complexity):
     plt.savefig(image_name+"_"+complexity+".png")
     plt.cla()
     return
+def print_time_msf(image_name,map):
+    print_time_msf_bar("./img/Time/functions/"+image_name+"_fpv",map,"sifis_plain")
+    print_time_msf_bar("./img/Time/functions/"+image_name+"_fpv",map,"sifis_quantized")
+    print_time_msf_bar("./img/Time/functions/"+image_name+"_fpv",map,"crap")
+    print_time_msf_bar("./img/Time/functions/"+image_name+"_fpv",map,"skunk")
+    return
 
 def time_analysis_functions(path_to_jsons, image_name):
     versions=[]
@@ -297,7 +303,7 @@ def time_analysis_functions(path_to_jsons, image_name):
         map[v]= roots.copy()
     plot_complex_functions("./img/Time/functions/"+image_name+"_complex",map,map_complex)
     print_mcf_per_repo("./img/Time/functions/"+image_name+"_most_complex_function",map)
-    print_time_msf_bar("./img/Time/functions/"+image_name+"_fpv",map,"sifis_plain")
+    print_time_msf(image_name,map)
 
 time_analysis("./TimeAnalysis/rust-analyzer","rust-analyzer")
 time_analysis("./TimeAnalysis/seahorse","seahorse")
