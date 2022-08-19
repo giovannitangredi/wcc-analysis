@@ -231,8 +231,9 @@ def print_mcf_per_comp(image_name,map,metric):
         ##wcc plain for noe for testing
         x=map_x[keyf]
         y = value
-        plt.plot(x,y,label=keyf)
-        plt.scatter(x,y)
+        x_axis= ["-".join(k[0:len(k)-5].split("-")[1:]) for k in x ]
+        plt.plot(x_axis,y,label=keyf)
+        plt.scatter(x_axis,y)
     plt.xticks(rotation=45)
     plt.ylabel("most complex function",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
     plt.xlabel("versions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
