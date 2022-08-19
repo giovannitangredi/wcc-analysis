@@ -181,11 +181,15 @@ def plot_complex_functions(image_path,map,map_complex):
     ratios = np.divide(complex,total)
     ratios= np.multiply(ratios,100.0)
     for i in range(0,len(x)):
-        plt.text(i, (100.0-ratios[i])//2 +ratios[i],str(round(100.0-ratios[i],2))+" %", color='snow', va='center',ha='center',fontweight='bold')
+        plt.text(i, (100.0-ratios[i])//2 +ratios[i],str(round(100.0-ratios[i],2))+"%", color='snow', va='center',ha='center',fontweight='bold')
+        if ratios[i]>2-0:
+            plt.text(i, (ratios[i])//2,str((round(ratios[i],2)))+"%", color='snow', va='center',ha='center',fontweight='bold')
+        else:
+            plt.text(i, (ratios[i])+1.0,str((round(ratios[i],2)))+"%", color='snow', va='center',ha='center',fontweight='bold')
     bar1=plt.bar(x, np.full(len(x),100), 0.5, label="Remaining percentage of function")
     bar2=plt.bar(x, ratios, 0.5,color="r", label="Percentage of complex function")
     #plt.bar_label(bar1,padding=5,fontweight='bold')
-    plt.bar_label(bar2,label_type='center',fmt="%.2f %%",color="snow",fontweight='bold')
+    #plt.bar_label(bar2,label_type='center',fmt="%.2f %%",color="snow",fontweight='bold')
     yt=plt.yticks()[0]
     #yt.append()
     plt.yticks(yt)

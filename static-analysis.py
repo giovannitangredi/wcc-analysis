@@ -153,6 +153,7 @@ def plot_most_significant_functions(img_path,map,key,index):
     ## WCC QUANTIZED
     x=[]
     y=[]
+    msf = s_cyc[index]["functions"].copy()
     msf.sort(key=lambda x: x["metrics"]["sifis_quantized"], reverse=True)
     sq = s_cyc[index]["metrics"]["sifis_quantized"]
     msf=msf[0:5]
@@ -173,6 +174,7 @@ def plot_most_significant_functions(img_path,map,key,index):
     ## crap
     x=[]
     y=[]
+    msf = s_cyc[index]["functions"].copy()
     msf.sort(key=lambda x: x["metrics"]["crap"], reverse=True)
     sq = s_cyc[index]["metrics"]["crap"]
     msf=msf[0:5]
@@ -193,6 +195,7 @@ def plot_most_significant_functions(img_path,map,key,index):
     ## skunk
     x=[]
     y=[]
+    msf = s_cyc[index]["functions"].copy()
     msf.sort(key=lambda x: x["metrics"]["skunk"], reverse=True)
     sq = s_cyc[index]["metrics"]["skunk"]
     msf=msf[0:5]
