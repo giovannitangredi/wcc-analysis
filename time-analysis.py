@@ -48,9 +48,9 @@ def plot_complex(versions,complex,total,img_path):
     for i in range(0,len(versions)):
         #plt.text(i, complex[i]//2,str(complex[i]), color='black', ha='center', fontweight='bold')
         plt.text(i, (total[i]-complex[i])//2 +complex[i],str(total[i]-complex[i]), color='snow', va='center',ha='center',fontweight='bold')
-    bar1=plt.bar(versions, total, 0.4, label="Remaining number of files")
-    bar2=plt.bar(versions, complex, 0.4,color="r", label="Number of complex files")
-    plt.bar_label(bar1,padding=5,fontweight='bold')
+    bar1=plt.bar(versions, total, 0.5, label="Remaining number of files")
+    bar2=plt.bar(versions, complex, 0.5,color="r", label="Number of complex files")
+    plt.bar_label(bar1,padding=2,fontweight='bold')
     plt.bar_label(bar2,label_type='center',color="snow",fontweight='bold')
     yt=plt.yticks()[0].tolist()
     step = yt[1]-yt[0]
@@ -72,8 +72,8 @@ def plot_complex_percentage(versions,complex,total,img_path):
     figure(figsize=(22,16), dpi=80)
     ratios = np.divide(complex,total)
     ratios= np.multiply(ratios,100.0)
-    plt.bar(versions, np.full(len(versions),100), 0.5, label="Remaining number of files")
-    bar=plt.bar(versions, ratios, 0.5,color="r", label="Percentage of complex files")
+    plt.bar(versions, np.full(len(versions),100), 0.55, label="Remaining number of files")
+    bar=plt.bar(versions, ratios, 0.55,color="r", label="Percentage of complex files")
     for i in range(0,len(versions)):
         plt.text(i,ratios[i]+((100.0-ratios[i])//2),str(round(100.0-ratios[i],2))+"%", color='snow',va='center', ha='center',fontweight='bold')
     plt.bar_label(bar,label_type='center',color="snow",fmt="%.2f%%",fontweight='bold')
@@ -127,10 +127,10 @@ def time_analysis(path_to_csvs, image_name) :
         no_ext_f = f[:len(f) - 4]
         versions.append("-".join(no_ext_f.split("-")[1:]))
 
-    print_plot(versions,avg,'./img/Time/'+image_name+'_avg.png')
-    print_plot(versions,max,'./img/Time/'+image_name+'_max.png')
-    plot_complex(versions,n_complex,n_files,'./img/Time/'+image_name+'_complex_files.png')
-    plot_complex_percentage(versions,n_complex,n_files,'./img/Time/'+image_name+'_complex_files_percentage.png')
+    print_plot(versions,avg,'./img/Time/'+image_name+'_avg.svg')
+    print_plot(versions,max,'./img/Time/'+image_name+'_max.svg')
+    plot_complex(versions,n_complex,n_files,'./img/Time/'+image_name+'_complex_files.svg')
+    plot_complex_percentage(versions,n_complex,n_files,'./img/Time/'+image_name+'_complex_files_percentage.svg')
     return
 
 
@@ -148,7 +148,7 @@ def plot_complex_functions(image_path,map,map_complex):
     total=[]
     complex=[]
     for key,roots in map.items():
-        no_ext_f = key[:len(key) - 4]
+        no_ext_f = key[:len(key) - 5]
         x.append("-".join(no_ext_f.split("-")[1:]))
         complex.append(map_complex[key])
         vt=0
@@ -157,10 +157,11 @@ def plot_complex_functions(image_path,map,map_complex):
         total.append(vt)
     for i in range(0,len(x)):
         plt.text(i, (total[i]-complex[i])//2 +complex[i],str(total[i]-complex[i]), color='snow', va='center',ha='center',fontweight='bold')
-        if complex[i]>2:
+        if complex[i]>2 :
             plt.text(i, (complex[i])//2,str(complex[i]), color='snow', va='center',ha='center',fontweight='bold')
         else:
-            plt.text(i, (complex[i])+1,str(complex[i]), color='snow', va='center',ha='center',fontweight='bold')
+            if complex[i]>0:
+                plt.text(i, (complex[i])+1,str(complex[i]), color='snow', va='center',ha='center',fontweight='bold')
     bar1=plt.bar(x, total, 0.4, label="Remaining number of function")
     bar2=plt.bar(x, complex, 0.4,color="r", label="Number of complex function")
     plt.bar_label(bar1,padding=5,fontweight='bold')
@@ -169,37 +170,38 @@ def plot_complex_functions(image_path,map,map_complex):
     step = yt[1]-yt[0]
     yt.append(max(yt)+step)
     plt.yticks(yt)
-    plt.ylabel("versions",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
-    plt.xlabel("number of complex functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.ylabel("number of complex functions",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.xlabel("versions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
     plt.title("Complex function")
     handles, labels = plt.gca().get_legend_handles_labels()
     order = [1,0]
     plt.legend([handles[idx] for idx in order],[labels[idx] for idx in order],loc='upper right',prop={'size': 20})
-    plt.savefig(image_path+".png")
+    plt.savefig(image_path+".svg")
     plt.cla()
     # PErcentage
     ratios = np.divide(complex,total)
     ratios= np.multiply(ratios,100.0)
     for i in range(0,len(x)):
         plt.text(i, (100.0-ratios[i])//2 +ratios[i],str(round(100.0-ratios[i],2))+"%", color='snow', va='center',ha='center',fontweight='bold')
-        if ratios[i]>2-0:
+        if ratios[i]>2.0:
             plt.text(i, (ratios[i])//2,str((round(ratios[i],2)))+"%", color='snow', va='center',ha='center',fontweight='bold')
         else:
-            plt.text(i, (ratios[i])+1.0,str((round(ratios[i],2)))+"%", color='snow', va='center',ha='center',fontweight='bold')
-    bar1=plt.bar(x, np.full(len(x),100), 0.5, label="Remaining percentage of function")
-    bar2=plt.bar(x, ratios, 0.5,color="r", label="Percentage of complex function")
+            if ratios[i]>0.0:
+                plt.text(i, (ratios[i])+1.0,str((round(ratios[i],2)))+"%", color='snow', va='center',ha='center',fontweight='bold')
+    bar1=plt.bar(x, np.full(len(x),100), 0.6, label="Remaining percentage of function")
+    bar2=plt.bar(x, ratios, 0.6,color="r", label="Percentage of complex function")
     #plt.bar_label(bar1,padding=5,fontweight='bold')
     #plt.bar_label(bar2,label_type='center',fmt="%.2f %%",color="snow",fontweight='bold')
     yt=plt.yticks()[0]
     #yt.append()
     plt.yticks(yt)
-    plt.ylabel("versions",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
-    plt.xlabel("number of complex functions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.ylabel("number of complex functions",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
+    plt.xlabel("versions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
     plt.title("Complex function Percentage")
     handles, labels = plt.gca().get_legend_handles_labels()
     order = [1,0]
     plt.legend([handles[idx] for idx in order],[labels[idx] for idx in order],loc='upper right',prop={'size': 20})
-    plt.savefig(image_path+"_percentage.png")
+    plt.savefig(image_path+"_percentage.svg")
     plt.cla()
     return
 
@@ -234,18 +236,18 @@ def print_mcf_per_comp(image_name,map,metric):
         x_axis= ["-".join(k[0:len(k)-5].split("-")[1:]) for k in x ]
         plt.plot(x_axis,y,label=keyf)
         plt.scatter(x_axis,y)
-    plt.xticks(rotation=45)
+    #plt.xticks(rotation=45)
     plt.ylabel("most complex function",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
     plt.xlabel("versions",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
     plt.title("Most complex function - "+metric)
     plt.legend()
-    plt.savefig(image_name+"_"+metric+".png")
+    plt.savefig(image_name+"_"+metric+".svg")
     plt.cla()
     return
 
 def print_mcf_per_repo(image_name,map):
-    print_mcf_per_comp(image_name,map,"sifis_plain")
-    print_mcf_per_comp(image_name,map,"sifis_quantized")
+    print_mcf_per_comp(image_name,map,"wcc_plain")
+    print_mcf_per_comp(image_name,map,"wcc_quantized")
     print_mcf_per_comp(image_name,map,"crap")
     print_mcf_per_comp(image_name,map,"skunk")
     return
@@ -279,12 +281,12 @@ def print_time_msf_bar(image_name,map,complexity):
     plt.xlabel("functions per version",loc='left',labelpad = 10,fontweight='bold',fontsize=22)
     plt.title("Most 3 complex function per version")
     plt.legend()
-    plt.savefig(image_name+"_"+complexity+".png")
+    plt.savefig(image_name+"_"+complexity+".svg")
     plt.cla()
     return
 def print_time_msf(image_name,map):
-    print_time_msf_bar("./img/Time/functions/"+image_name+"_fpv",map,"sifis_plain")
-    print_time_msf_bar("./img/Time/functions/"+image_name+"_fpv",map,"sifis_quantized")
+    print_time_msf_bar("./img/Time/functions/"+image_name+"_fpv",map,"wcc_plain")
+    print_time_msf_bar("./img/Time/functions/"+image_name+"_fpv",map,"wcc_quantized")
     print_time_msf_bar("./img/Time/functions/"+image_name+"_fpv",map,"crap")
     print_time_msf_bar("./img/Time/functions/"+image_name+"_fpv",map,"skunk")
     return

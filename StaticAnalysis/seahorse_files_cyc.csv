@@ -1,0 +1,25 @@
+FILE,WCC PLAIN,WCC QUANTIZED,CRAP,SKUNK,IGNORED,IS COMPLEX,FILE PATH
+app.rs,79.215,0.792,123.974,53.535,false,true,src/app.rs
+command.rs,26.000,0.722,40.777,22.244,false,true,src/command.rs
+context.rs,24.316,0.737,33.468,9.962,false,false,src/context.rs
+error.rs,0.531,0.031,257.941,64.000,false,true,src/error.rs
+flag.rs,34.696,0.738,48.329,15.870,false,true,src/flag.rs
+help.rs,1.500,0.500,3.000,0.000,false,false,src/help.rs
+lib.rs,0.077,0.077,1.000,0.000,false,false,src/lib.rs
+multiple_app.rs,0.000,0.000,552.000,92.000,false,true,examples/multiple_app.rs
+single_app.rs,0.000,0.000,20.000,16.000,false,false,examples/single_app.rs
+PROJECT,45.563,0.657,1089.333,240.697,false,false,-
+AVG,18.482,0.400,120.054,30.401,false,false,-
+MAX,79.215,0.792,552.000,92.000,false,false,-
+MIN,0.000,0.000,1.000,0.000,false,false,-
+PROJECT_COVERAGE,77.210,-,-,-,-,-,-
+LIST OF COMPLEX FILES,----------,----------,----------,----------,----------,----------,----------
+app.rs,79.215,0.792,123.974,53.535,false,true,src/app.rs
+flag.rs,34.696,0.738,48.329,15.870,false,true,src/flag.rs
+command.rs,26.000,0.722,40.777,22.244,false,true,src/command.rs
+error.rs,0.531,0.031,257.941,64.000,false,true,src/error.rs
+multiple_app.rs,0.000,0.000,552.000,92.000,false,true,examples/multiple_app.rs
+TOTAL COMPLEX FILES,5,,,,,,
+LIST OF IGNORED FILES,----------,----------,----------,----------,----------,----------,----------
+../seahorse/src/action.rs,0.000,0.000,0.000,0.000,true,-,-
+TOTAL FILES IGNORED,1,,,,,,

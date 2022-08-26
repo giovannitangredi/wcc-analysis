@@ -55,7 +55,7 @@ def print_bar_plot(x,vec,img_path,title):
     plt.ylabel("Complexity",loc='bottom',labelpad = 10,fontweight='bold',fontsize=22)
     plt.title(title)
     plt.legend()
-    plt.savefig(img_path)
+    plt.savefig(img_path+".svg")
     plt.cla()
     return
 
@@ -88,9 +88,11 @@ def static_analysis(path_to_csvs,image_name):
                      else:
                         max_cogn.append([float(row[1]),float(row[2]),float(row[3]),float(row[4])])
                 if row[0] == 'MIN':
-                     if file.split("_")[1] == "cyc.csv":
+                    print(file+" - ")
+                    print(row)
+                    if file.split("_")[1] == "cyc.csv":
                         min_cyc.append([float(row[1]),float(row[2]),float(row[3]),float(row[4])])
-                     else:
+                    else:
                         min_cogn.append([float(row[1]),float(row[2]),float(row[3]),float(row[4])])
                         
     x=[]
@@ -109,10 +111,10 @@ def static_analysis(path_to_csvs,image_name):
         sifis_q.append( [avg_cyc[i][1], avg_cogn[i][1], max_cyc[i][1], max_cogn[i][1],min_cyc[i][1], min_cogn[i][1]])
         crap.append( [avg_cyc[i][2], avg_cogn[i][2], max_cyc[i][2], max_cogn[i][2],min_cyc[i][2], min_cogn[i][2]])
         skunk.append( [avg_cyc[i][3], avg_cogn[i][3], max_cyc[i][3], max_cogn[i][3],min_cyc[i][3], min_cogn[i][3]])
-    print_bar_plot(x,sifis,'./img/Static/'+image_name+'_wcc_plain.png',"WCC Plain")
-    print_bar_plot(x,sifis_q,'./img/Static/'+image_name+'_wcc_quantized.png',"WCC Quantized")
-    print_bar_plot(x,crap,'./img/Static/'+image_name+'_crap.png',"CRAP")
-    print_bar_plot(x,skunk,'./img/Static/'+image_name+'_skunk.png',"SkunkScore")
+    print_bar_plot(x,sifis,'./img/Static/'+image_name+'_wcc_plain',"WCC Plain")
+    print_bar_plot(x,sifis_q,'./img/Static/'+image_name+'_wcc_quantized',"WCC Quantized")
+    print_bar_plot(x,crap,'./img/Static/'+image_name+'_crap',"CRAP")
+    print_bar_plot(x,skunk,'./img/Static/'+image_name+'_skunk',"SkunkScore")
     return
 
 ## FUNCTIONS
@@ -127,13 +129,13 @@ def plot_most_significant_functions(img_path,map,key,index):
     x=[]
     y=[]
     msf = s_cyc[index]["functions"].copy()
-    msf.sort(key=lambda x: x["metrics"]["sifis_plain"], reverse=True)
+    msf.sort(key=lambda x: x["metrics"]["wcc_plain"], reverse=True)
     msf=msf[0:5]
     name =s_cyc[index]["file_name"]
-    sp=s_cyc[index]["metrics"]["sifis_plain"]
+    sp=s_cyc[index]["metrics"]["wcc_plain"]
     for f in msf:
         x.append(f["function_name"])
-        y.append(f["metrics"]["sifis_plain"])
+        y.append(f["metrics"]["wcc_plain"])
     plt.rcParams.update({'font.size': 18})
     figure, axis = plt.subplots(2, 2)
     plt.subplots_adjust(wspace = 0.5 ,hspace = 0.5)
@@ -148,18 +150,18 @@ def plot_most_significant_functions(img_path,map,key,index):
     axis[0,0].set_xlabel("Functions",loc='left',labelpad = 5,fontweight='bold',fontsize=22)
     axis[0,0].set_ylabel("Complexity",loc='bottom',labelpad = 5,fontweight='bold',fontsize=22)
     title = key[:len(key)-4].split("_")[0]
-    axis[0,0].set_title(title+" WCC PLAIN "+name+" "+str(sp))
+    axis[0,0].set_title(title+" WCC PLAIN "+name+" "+str(round(sp,2)))
     axis[0,0].tick_params(axis='y', labelrotation=45)
     ## WCC QUANTIZED
     x=[]
     y=[]
     msf = s_cyc[index]["functions"].copy()
-    msf.sort(key=lambda x: x["metrics"]["sifis_quantized"], reverse=True)
-    sq = s_cyc[index]["metrics"]["sifis_quantized"]
+    msf.sort(key=lambda x: x["metrics"]["wcc_quantized"], reverse=True)
+    sq = s_cyc[index]["metrics"]["wcc_quantized"]
     msf=msf[0:5]
     for f in msf:
         x.append(f["function_name"])
-        y.append(f["metrics"]["sifis_quantized"])
+        y.append(f["metrics"]["wcc_quantized"])
     bar=axis[0,1].barh(x, y, 0.4,label="functions")
     axis[0,1].bar_label(bar,padding=5,fontweight='bold',fmt="%.2f")
     y_ticks = axis[0,1].get_xticks().tolist()
@@ -169,14 +171,14 @@ def plot_most_significant_functions(img_path,map,key,index):
     axis[0,1].set_xlabel("Functions",loc='left',labelpad = 5,fontweight='bold',fontsize=22)
     axis[0,1].set_ylabel("Complexity",loc='bottom',labelpad = 5,fontweight='bold',fontsize=22)
     title = key[:len(key)-4].split("_")[0]
-    axis[0,1].set_title(title+" WCC QUANTIZED "+name+" "+str(sq))
+    axis[0,1].set_title(title+" WCC QUANTIZED "+name+" "+str(round(sq,2)))
     axis[0,1].tick_params(axis='y', labelrotation=45)
     ## crap
     x=[]
     y=[]
     msf = s_cyc[index]["functions"].copy()
     msf.sort(key=lambda x: x["metrics"]["crap"], reverse=True)
-    sq = s_cyc[index]["metrics"]["crap"]
+    crap = s_cyc[index]["metrics"]["crap"]
     msf=msf[0:5]
     for f in msf:
         x.append(f["function_name"])
@@ -190,14 +192,14 @@ def plot_most_significant_functions(img_path,map,key,index):
     axis[1,0].set_xlabel("Functions",loc='left',labelpad = 5,fontweight='bold',fontsize=22,)
     axis[1,0].set_ylabel("Complexity",loc='bottom',labelpad = 5,fontweight='bold',fontsize=22)
     title = key[:len(key)-4].split("_")[0]
-    axis[1,0].set_title(title+" CRAP "+name+" "+str(sq))
+    axis[1,0].set_title(title+" CRAP "+name+" "+str(round(crap,2)))
     axis[1,0].tick_params(axis='y', labelrotation=45)
     ## skunk
     x=[]
     y=[]
     msf = s_cyc[index]["functions"].copy()
     msf.sort(key=lambda x: x["metrics"]["skunk"], reverse=True)
-    sq = s_cyc[index]["metrics"]["skunk"]
+    skunk = s_cyc[index]["metrics"]["skunk"]
     msf=msf[0:5]
     for f in msf:
         x.append(f["function_name"])
@@ -211,11 +213,11 @@ def plot_most_significant_functions(img_path,map,key,index):
     axis[1,1].set_xlabel("Functions",loc='left',labelpad = 5,fontweight='bold',fontsize=22)
     axis[1,1].set_ylabel("Complexity",loc='bottom',labelpad = 5,fontweight='bold',fontsize=22)
     title = key[:len(key)-4].split("_")[0]
-    axis[1,1].set_title(title+" SKUNK "+name+" "+str(sq))
+    axis[1,1].set_title(title+" SKUNK "+name+" "+str(round(skunk,2)))
     axis[1,1].tick_params(axis='y', labelrotation=45)
     #plt.title(title+" most significant functions")
     plt.legend()
-    plt.savefig(img_path+"_"+title+"_msf.png")
+    plt.savefig(img_path+"_"+title+"_msf.svg")
     plt.cla()
     return
 

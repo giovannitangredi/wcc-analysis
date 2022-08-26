@@ -1,0 +1,62 @@
+FILE,WCC PLAIN,WCC QUANTIZED,CRAP,SKUNK,IGNORED,IS COMPLEX,FILE PATH
+aes.rs,19.718,0.493,54.527,33.379,false,true,src/aes.rs
+aes_gcm.rs,7.664,0.590,13.002,1.130,false,false,src/aes_gcm.rs
+aesni.rs,7.378,0.568,13.153,5.032,false,false,src/aesni.rs
+aessafe.rs,12.919,0.807,16.001,0.934,false,false,src/aessafe.rs
+bcrypt.rs,4.062,0.812,5.000,0.000,false,false,src/bcrypt.rs
+bcrypt_pbkdf.rs,18.247,0.912,20.000,0.000,false,false,src/bcrypt_pbkdf.rs
+blake2b.rs,18.778,0.695,27.126,6.018,false,false,src/blake2b.rs
+blake2s.rs,17.176,0.636,28.356,13.282,false,false,src/blake2s.rs
+blockmodes.rs,81.019,0.735,125.606,36.917,false,true,src/blockmodes.rs
+blowfish.rs,15.382,0.905,17.001,0.967,false,false,src/blowfish.rs
+buffer.rs,0.000,0.471,0.000,0.000,false,false,src/buffer.rs
+build.rs,5.310,0.483,22.896,20.308,false,false,build.rs
+chacha20.rs,11.377,0.758,15.017,2.556,false,false,src/chacha20.rs
+chacha20poly1305.rs,20.178,2.522,8.000,0.094,false,true,src/chacha20poly1305.rs
+cryptoutil.rs,19.938,0.767,26.120,5.846,false,false,src/cryptoutil.rs
+curve25519.rs,34.571,0.603,58.000,0.852,false,true,src/curve25519.rs
+digest.rs,0.000,0.650,0.000,0.000,false,false,src/digest.rs
+ed25519.rs,11.000,1.000,11.000,0.368,false,false,src/ed25519.rs
+fortuna.rs,9.856,0.821,12.000,0.168,false,false,src/fortuna.rs
+ghash.rs,4.421,0.340,15.226,12.281,false,false,src/ghash.rs
+hc128.rs,13.154,0.692,20.336,11.757,false,false,src/hc128.rs
+hkdf.rs,4.447,0.889,5.000,0.000,false,false,src/hkdf.rs
+hmac.rs,6.761,0.845,8.000,0.000,false,false,src/hmac.rs
+lib.rs,0.000,0.021,0.000,0.000,false,false,src/lib.rs
+mac.rs,0.000,0.529,0.000,0.000,false,false,src/mac.rs
+md5.rs,6.486,0.721,9.000,0.400,false,false,src/md5.rs
+pbkdf2.rs,35.044,1.058,40.669,11.963,false,true,src/pbkdf2.rs
+poly1305.rs,12.393,0.885,14.012,2.203,false,false,src/poly1305.rs
+rc4.rs,1.705,0.426,4.044,2.250,false,false,src/rc4.rs
+ripemd160.rs,3.753,0.751,5.000,0.185,false,false,src/ripemd160.rs
+salsa20.rs,8.729,0.671,13.052,3.508,false,false,src/salsa20.rs
+scrypt.rs,44.915,1.017,51.579,12.364,false,true,src/scrypt.rs
+sha1.rs,5.288,0.881,6.000,0.424,false,false,src/sha1.rs
+sha2.rs,5.298,0.757,7.001,0.733,false,false,src/sha2.rs
+sha3.rs,58.023,0.994,59.001,1.665,false,true,src/sha3.rs
+simd.rs,0.844,0.422,2.015,1.244,false,false,src/simd.rs
+sosemanuk.rs,24.667,1.114,26.000,0.462,false,false,src/sosemanuk.rs
+step_by.rs,0.824,0.412,2.001,0.533,false,false,src/step_by.rs
+symmetriccipher.rs,0.000,0.000,6.000,8.000,false,false,examples/symmetriccipher.rs
+symmetriccipher.rs,0.000,0.077,0.000,0.000,false,false,src/symmetriccipher.rs
+util.rs,1.290,0.645,2.000,0.195,false,false,src/util.rs
+whirlpool.rs,4.532,0.206,22.008,2.271,false,false,src/whirlpool.rs
+PROJECT,31.549,0.823,768.198,100.446,false,false,-
+AVG,13.265,0.704,18.827,4.769,false,false,-
+MAX,81.019,2.522,125.606,36.917,false,false,-
+MIN,0.000,0.000,0.000,0.000,false,false,-
+PROJECT_COVERAGE,96.640,-,-,-,-,-,-
+LIST OF COMPLEX FILES,----------,----------,----------,----------,----------,----------,----------
+blockmodes.rs,81.019,0.735,125.606,36.917,false,true,src/blockmodes.rs
+sha3.rs,58.023,0.994,59.001,1.665,false,true,src/sha3.rs
+scrypt.rs,44.915,1.017,51.579,12.364,false,true,src/scrypt.rs
+pbkdf2.rs,35.044,1.058,40.669,11.963,false,true,src/pbkdf2.rs
+curve25519.rs,34.571,0.603,58.000,0.852,false,true,src/curve25519.rs
+chacha20poly1305.rs,20.178,2.522,8.000,0.094,false,true,src/chacha20poly1305.rs
+aes.rs,19.718,0.493,54.527,33.379,false,true,src/aes.rs
+TOTAL COMPLEX FILES,7,,,,,,
+LIST OF IGNORED FILES,----------,----------,----------,----------,----------,----------,----------
+../rust-crypto/src/aead.rs,0.000,0.000,0.000,0.000,true,-,-
+../rust-crypto/src/aesni_helpers.c,0.000,0.000,0.000,0.000,true,-,-
+../rust-crypto/src/util_helpers.c,0.000,0.000,0.000,0.000,true,-,-
+TOTAL FILES IGNORED,3,,,,,,

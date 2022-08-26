@@ -1,0 +1,22 @@
+FILE,WCC PLAIN,WCC QUANTIZED,CRAP,SKUNK,IGNORED,IS COMPLEX,FILE PATH
+app.rs,66.540,0.792,100.916,44.970,false,true,src/app.rs
+command.rs,19.500,0.722,29.687,16.683,false,false,src/command.rs
+context.rs,18.421,0.887,25.269,7.547,false,false,src/context.rs
+error.rs,0.062,0.031,5.335,7.529,false,false,src/error.rs
+flag.rs,17.717,0.738,24.346,8.104,false,false,src/flag.rs
+help.rs,0.000,0.500,0.000,0.000,false,false,src/help.rs
+lib.rs,0.000,0.077,0.000,0.000,false,false,src/lib.rs
+multiple_app.rs,0.000,0.000,72.000,32.000,false,true,examples/multiple_app.rs
+single_app.rs,0.000,0.000,6.000,8.000,false,false,examples/single_app.rs
+PROJECT,35.605,0.676,522.331,156.818,false,false,-
+AVG,13.582,0.416,29.284,13.870,false,false,-
+MAX,66.540,0.887,100.916,44.970,false,false,-
+MIN,0.000,0.000,0.000,0.000,false,false,-
+PROJECT_COVERAGE,77.210,-,-,-,-,-,-
+LIST OF COMPLEX FILES,----------,----------,----------,----------,----------,----------,----------
+app.rs,66.540,0.792,100.916,44.970,false,true,src/app.rs
+multiple_app.rs,0.000,0.000,72.000,32.000,false,true,examples/multiple_app.rs
+TOTAL COMPLEX FILES,2,,,,,,
+LIST OF IGNORED FILES,----------,----------,----------,----------,----------,----------,----------
+../seahorse/src/action.rs,0.000,0.000,0.000,0.000,true,-,-
+TOTAL FILES IGNORED,1,,,,,,
